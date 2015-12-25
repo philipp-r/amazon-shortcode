@@ -14,3 +14,12 @@ Zeigt mehrere Produkte aus einer Suche nach "iphone" an.
 **[amazon num=3]iphone[/amazon]**
 
 Zeigt 3 Produkte aus einer Suche nach "iphone" an.
+
+
+# Hinweis
+
+Benutzt Software von chopin2256 (https://github.com/chopin2256/Amazon)
+
+Copyright (c) 2013 chopin2256
+
+Lizenz: https://github.com/chopin2256/Amazon/blob/master/LICENSE.md
