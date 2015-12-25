@@ -1,10 +1,10 @@
 <?php
 /**
  * Plugin Name: Amazon Shortcode
- * Plugin URI:  
+ * Plugin URI:  https://github.com/philipp-r/amazon-shortcode
  * Description: Ein [amazon] Shortcode in WordPress um Amazon Produkte zu verlinken (Für Amazon Deutschland). Beispielnutzung: [amazon]B00NGOCP64[/amazon] [amazon num=2]iphone[/amazon]
  * Author:      Philipp Rackevei
- * Author URI:  
+ * Author URI:  http://wpblog.eu/
  * Version:     0.1
  */
 
@@ -29,7 +29,7 @@ function amazonLayout($i, Amazon $amazon) {
 	$title = $amazon->get()->title();
 	$desc = $amazon->get()->description();
 
-	return '<strong>'.$title[$i].'</strong><br>Neupreis bei Amazon.de ab '.$priceLowNew[$i].'<br><p align="center"><a href="'.$url[$i].'" target="_blank">Auf Amazon.de</a></p>';
+	return '<strong>'.$title[$i].'</strong><br>Neupreis bei Amazon ab '.$priceLowNew[$i].'<br><p align="center"><a href="'.$url[$i].'" target="_blank">Auf Amazon</a></p>';
 }
 
 
@@ -64,10 +64,10 @@ function amazonShortcode($atts, $content) {
     
     //Set config options
     $amazon->config()
-            ->API_KEY('x')
-            ->SECRET_KEY('x')
-            ->associate_tag('x')
-            ->locale('de')
+            ->API_KEY(get_option('amazon_shortc_apikey'))
+            ->SECRET_KEY(get_option('amazon_shortc_secretkey'))
+            ->associate_tag(get_option('amazon_shortc_associatetag'))
+            ->locale(get_option('amazon_shortc_locale'))
             ->maxResults($cnt);
 
     //Search for keyword
@@ -87,4 +87,76 @@ function amazonShortcode($atts, $content) {
 
 }
 add_shortcode("amazon", "amazonShortcode");
+
+
+
+
+
+
+
+
+
+/**
+ * Adds the settings for this plugin to WordPress
+ *
+ * Settings: amazon_shortc_
+ * 	apikey, secretkey, associatetag, locale 
+ */
+ 
+function amazon_shortc_settings_api_init() {
+	// Add the new section to writing settings so we can add our fields to it
+	add_settings_section(
+		'amazon_shortc_section', 'Amazon Shortcode', 'amazon_shortc_section_callback', 'writing'
+	);
+	
+ 	// Add amazon_shortc_apikey
+ 	add_settings_field(
+		'amazon_shortc_apikey', 'Amazon API Key', 'amazon_shortc_apikey_callback', 'writing', 'amazon_shortc_section'
+	);
+ 	// Add amazon_shortc_secretkey
+ 	add_settings_field(
+		'amazon_shortc_secretkey', 'Amazon Secret Key', 'amazon_shortc_secretkey_callback', 'writing', 'amazon_shortc_section'
+	);
+ 	// Add amazon_shortc_associatetag
+ 	add_settings_field(
+		'amazon_shortc_associatetag', 'Associate Tag', 'amazon_shortc_associatetag_callback', 'writing', 'amazon_shortc_section'
+	);
+ 	// Add amazon_shortc_locale
+ 	add_settings_field(
+		'amazon_shortc_locale', 'Locale', 'amazon_shortc_locale_callback', 'writing', 'amazon_shortc_section'
+	);
+ 	
+ 	// Register the settings
+ 	register_setting( 'writing', 'amazon_shortc_apikey' );
+ 	register_setting( 'writing', 'amazon_shortc_secretkey' );
+ 	register_setting( 'writing', 'amazon_shortc_associatetag' );
+ 	register_setting( 'writing', 'amazon_shortc_locale' );
+ } 
+ 
+ add_action( 'admin_init', 'amazon_shortc_settings_api_init' );
+ 
+  
+// Adds a info text to the section mcc_settings_section 
+// This function will be run at the start of our section
+function amazon_shortc_section_callback() {
+	echo '<p>This plugin adds a shortcode to WordPress to include Amazon products into posts.</p>';
+}
+ 
+// Create a text input field for amazon_shortc_apikey
+function amazon_shortc_apikey_callback() {
+	echo '<input name="amazon_shortc_apikey" id="amazon_shortc_apikey" type="input" value="' . get_option( 'amazon_shortc_apikey' ) . '" class="code" /> <br /> Your API key';
+}
+// Create a text input field for amazon_shortc_secretkey
+function amazon_shortc_secretkey_callback() {
+	echo '<input name="amazon_shortc_secretkey" id="amazon_shortc_secretkey" type="input" value="' . get_option( 'amazon_shortc_secretkey' ) . '" class="code" /> <br /> Your Secret Key';
+}
+// Create a text input field for amazon_shortc_associatetag
+function amazon_shortc_associatetag_callback() {
+	echo '<input name="amazon_shortc_associatetag" id="amazon_shortc_associatetag" type="input" value="' . get_option( 'amazon_shortc_associatetag' ) . '" class="code" /> <br /> Amazon associate tag.';
+}
+// Create a text input field for amazon_shortc_locale
+function amazon_shortc_locale_callback() {
+	echo '<input name="amazon_shortc_locale" id="amazon_shortc_locale" type="input" value="' . get_option( 'amazon_shortc_locale' ) . '" class="code" /> <br /> Country code (de, ...)';
+}
+
 
