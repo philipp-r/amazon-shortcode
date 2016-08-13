@@ -3,7 +3,7 @@
  * Plugin Name: Amazon Shortcode
  * Plugin URI:  https://github.com/philipp-r/amazon-shortcode
  * Description: Ein [amazon] Shortcode in WordPress um Amazon Produkte zu verlinken (Für Amazon Deutschland). Beispielnutzung: [amazon]B00NGOCP64[/amazon] [amazon num=2]iphone[/amazon]
- * Author:      Philipp Rackevei
+ * Author:      Philipp
  * Author URI:  http://wpblog.eu/
  * Version:     0.1
  */
