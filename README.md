@@ -1,6 +1,8 @@
 # Amazon Shortcode
 Ein Shortcode in WordPress um Amazon Produkte zu verlinken.
 
+You can support by donating Bitcoins to 12gK5BARKeVuV3MZwLnTUtfAx7ArwBnZTs 	
+
 # Benutzung
 
 **[amazon]B00NGOCP64[/amazon]**
